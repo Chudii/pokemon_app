@@ -27,6 +27,7 @@ const listStyle = {
 class Index extends React.Component {
     render() {
         const { pokemon } = this.props
+
         return (
             <div style={containerStyle}>
                 <h1 style={myStyle}>See All The Pokemon!</h1>
@@ -34,7 +35,9 @@ class Index extends React.Component {
                     {pokemon.map((poke, i) => {
                         return (
                             <li>
-                                {poke.name}
+                                <a href={`/pokemon/${i}`}>
+                                    {poke.name.charAt(0).toUpperCase() + poke.name.slice(1)}
+                                </a>
                             </li>
                         )
                     })}

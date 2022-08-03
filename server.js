@@ -1,8 +1,17 @@
 const express = require('express')
+const mongoose = require('mongoose')
+const Pokemon = require('./models/pokemon')
 require('dotenv').config()
-const pokemon = require('./models/pokemon')
 const app = express()
 const port = process.env.PORT || 3003
+
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+});
+mongoose.connection.once("open", () => {
+    console.log("connected to mongo");
+});
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -14,16 +23,18 @@ app.get('/', (req, res) => {
 })
 
 app.get('/pokemon', (req, res) => {
-    res.render('Index', {
-        pokemon: pokemon
+    Pokemon.find({}, (err, allPokemon) => {
+        res.render('Index', {
+            pokemon: allPokemon
+        })
     })
 })
 
-app.post('/pokemon/', (req, res) => {
-    let newPoke = req.body
-    newPoke['img'] = `http://img.pokemondb.net/artwork/${req.body.name.toLowerCase()}`
-    pokemon.push(newPoke)
-    res.redirect('/pokemon')
+app.post('/pokemon', (req, res) => {
+    Pokemon.create(req.body, (err, createdPokemon) => {
+        res.redirect('/pokemon')
+    })
+    // pokemon.push(newPoke)
 })
 
 app.get('/pokemon/new', (req, res) => {
@@ -31,8 +42,10 @@ app.get('/pokemon/new', (req, res) => {
 })
 
 app.get('/pokemon/:id', (req, res) => {
-    res.render('Show', {
-        pokemon: pokemon[req.params.id]
+    Pokemon.findById(req.params.id, (err, foundPokemon) => {
+        res.render('Show', {
+            pokemon: foundPokemon
+        })
     })
 })
 

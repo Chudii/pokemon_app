@@ -23,14 +23,14 @@ const containerStyle = {
 
 class Show extends React.Component {
     render() {
-        const { pokemon } = this.props
-
+        const pokemon = this.props.pokemon
+        //  const { pokemon } = this.props
         return (
             <div style={containerStyle}>
                 <h1 style={myStyle}>Gotta Catch 'Em All</h1>
                 <h2>{pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}</h2>
                 <br/>
-                <img src={`${pokemon.img}.jpg`}/>
+                <img src={`http://img.pokemondb.net/artwork/${pokemon.name.toLowerCase()}.jpg`}/>
                 <a style={{marginTop: '2vh'}} href={`/pokemon`}>Back</a>
             </div>
             

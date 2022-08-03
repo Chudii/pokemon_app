@@ -17,7 +17,8 @@ const containerStyle = {
     height: '98vh',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    flexDirection: 'column'
 }
 
 const listStyle = {
@@ -42,6 +43,9 @@ class Index extends React.Component {
                         )
                     })}
                 </ul>
+                <nav>
+                    <a href="/pokemon/new">Add new collection to the Pokedex</a>
+                </nav>
             </div>
             
         )
